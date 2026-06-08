@@ -1,3 +1,42 @@
-from django.shortcuts import render
+from rest_framework import viewsets, permissions
+from .models import Category, Transaction, Budget, RecurringExpense
+from .serializers import CategorySerializer, TransactionSerializer, BudgetSerializer, RecurringExpenseSerializer
 
-# Create your views here.
+class CategoryViewSet(viewsets.ModelViewSet):
+    serializer_class = CategorySerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return Category.objects.filter(user=self.request.user) 
+    
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+class TransactionViewSet(viewsets.ModelViewSet):
+    serializer_class = TransactionSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return Transaction.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+class BudgetViewSet(viewsets.ModelViewSet):
+    serializer_class = BudgetSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return Budget.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+class RecurringExpenseViewSet(viewsets.ModelViewSet):
+    serializer_class = RecurringExpenseSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return RecurringExpense.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)

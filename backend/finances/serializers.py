@@ -4,7 +4,7 @@ from .models import Category, Transaction, Budget, RecurringExpense
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        field = ['id', 'name', 'icon']
+        fields = ['id', 'name', 'icon']
 
 class TransactionSerializer(serializers.ModelSerializer):
     category_name = serializers.CharField(source='category.name', read_only=True)
@@ -21,7 +21,7 @@ class BudgetSerializer(serializers.ModelSerializer):
         fields = ['id', 'category', 'category_name', 'amount', 'month', 'year']
 
 class RecurringExpenseSerializer(serializers.ModelSerializer):
-    category_name = serializers.Charfield(soruce='category.name', read_only=True)
+    category_name = serializers.CharField(source='category.name', read_only=True)
 
     class Meta:
         model = RecurringExpense
